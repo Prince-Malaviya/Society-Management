@@ -1,0 +1,216 @@
+﻿@model SocietyMangement.Models.HomeModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2 class="text-center mb-4">Society Management Dashboard</h2>
+
+<div class="row">
+    <!-- Count Cards Section -->
+    <div class="col-md-6 mb-3">
+        <div class="card shadow border-0">
+            <div class="card-body text-center">
+                <h5 class="card-title">Total Events</h5>
+                <h3 class="text-primary">@Model.TotalEvents</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card shadow border-0">
+            <div class="card-body text-center">
+                <h5 class="card-title">Total Visitors</h5>
+                <h3 class="text-primary">@Model.TotalVisitors</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card shadow border-0">
+            <div class="card-body text-center">
+                <h5 class="card-title">Total Users</h5>
+                <h3 class="text-primary">@Model.TotalUsers</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card shadow border-0">
+            <div class="card-body text-center">
+                <h5 class="card-title">Total Meetings</h5>
+                <h3 class="text-primary">@Model.TotalMeetings</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Links Section -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow border-0">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">Quick Links</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Table Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Events</td>
+                            <td><a asp-controller="Event" asp-action="EventList" class="btn btn-primary">Open Events</a></td>
+                        </tr>
+                        <tr>
+                            <td>Visitors</td>
+                            <td><a asp-controller="Visitor" asp-action="VisitorList" class="btn btn-success">Open Visitors</a></td>
+                        </tr>
+                        <tr>
+                            <td>Users</td>
+                            <td><a asp-controller="User" asp-action="UserList" class="btn btn-warning">Open Users</a></td>
+                        </tr>
+                        <tr>
+                            <td>Meetings</td>
+                            <td><a asp-controller="Meeting" asp-action="MeetingList" class="btn btn-danger">Open Meetings</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Events Section -->
+    <div class="col-md-6">
+        <div class="card shadow border-0">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Top 3 Events</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var eventItem in Model.Events)
+                        {
+                            <tr>
+                                <td>@eventItem.EventTitle</td>
+                                <td>@eventItem.StartDateTime.ToString("g")</td>
+                                <td>@eventItem.EndDateTime.ToString("g")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a asp-controller="Event" asp-action="EventList" class="btn btn-primary w-100">View All</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Visitors Section -->
+    <div class="col-md-6">
+        <div class="card shadow border-0">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Top 3 Visitors</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Entry</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var visitor in Model.Visitors)
+                        {
+                            <tr>
+                                <td>@visitor.VisitorName</td>
+                                <td>@visitor.EntryTime.ToString("g")</td>
+                                <td>
+                                    <span class="badge @(visitor.Status == "Approved" ? "bg-success" : "bg-danger")">
+                                        @visitor.Status
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a asp-controller="Visitor" asp-action="VisitorList" class="btn btn-success w-100">View All</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users Section -->
+    <div class="col-md-6 mt-4">
+        <div class="card shadow border-0">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">Top 3 Users</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <td>@user.UserName</td>
+                                <td>@user.Email</td>
+                                <td>@user.Role</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a asp-controller="User" asp-action="UserList" class="btn btn-warning w-100">View All</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Meetings Section -->
+    <div class="col-md-6 mt-4">
+        <div class="card shadow border-0">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">Top 3 Meetings</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Start Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var meeting in Model.Meetings)
+                        {
+                            <tr>
+                                <td>@meeting.MeetingTitle</td>
+                                <td>@meeting.StartDateTime.ToString("g")</td>
+                                <td>
+                                    <span class="badge @(meeting.Status == "Scheduled" ? "bg-info" : meeting.Status == "Completed" ? "bg-success" : "bg-danger")">
+                                        @meeting.Status
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a asp-controller="Meeting" asp-action="MeetingList" class="btn btn-danger w-100">View All</a>
+            </div>
+        </div>
+    </div>
+</div>
